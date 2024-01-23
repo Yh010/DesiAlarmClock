@@ -1,13 +1,11 @@
-import { useState } from 'react'
-
 import './App.css'
+import SongsearchButton from './components/SongsearchButton'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-      Hi there
+      <SongsearchButton/>
     </>
   )
 }
