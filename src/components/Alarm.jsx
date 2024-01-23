@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
-const Alarm = () => {
+const Alarm = (props) => {
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
-  const [isActive, setIsActive] = useState(false);
+    const [isActive, setIsActive] = useState(false);
+    const [flag,setFlag] = useState(1);
+  
 
   useEffect(() => {
     let intervalId;
@@ -13,7 +16,10 @@ const Alarm = () => {
       intervalId = setInterval(() => {
         if (hours === 0 && minutes === 0 && seconds === 0) {
           clearInterval(intervalId);
-          setIsActive(false);
+            setIsActive(false);
+            setFlag(0);
+            props.getFlagValue(flag)  
+            console.log("flag", setFlag);
         } else {
           if (seconds === 0) {
             if (minutes === 0) {
@@ -31,7 +37,7 @@ const Alarm = () => {
     }
 
     return () => clearInterval(intervalId);
-  }, [isActive, hours, minutes, seconds]);
+  }, [isActive, hours, minutes, seconds,setFlag]);
 
   const handleStart = () => {
     setIsActive(true);
@@ -103,5 +109,6 @@ const Alarm = () => {
     </div>
   );
 };
+
 
 export default Alarm;
