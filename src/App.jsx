@@ -1,11 +1,17 @@
 import './App.css'
+import Alarm from './components/Alarm'
 import SongsearchButton from './components/SongsearchButton'
 
 function App() {
 
   return (
     <>
-      <SongsearchButton/>
+      <div className='flex justify-between'>
+        <SongsearchButton />
+        <Alarm/>
+        
+      </div>
+      
     </>
   )
 }
