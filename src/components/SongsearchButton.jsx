@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Navbar from './Navbar';
 
-const SongsearchButton = () => {
+const SongsearchButton = ({displayResults}) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [videos, setVideos] = useState([]);
 
@@ -113,7 +113,7 @@ Search Your Music
           <br></br>
 
       {/* Display the search results */}
-      <div id="video-container"></div>
+      {displayResults && (<div id="video-container"></div>)}
     </div>
   );
 };

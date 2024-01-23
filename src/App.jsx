@@ -6,12 +6,19 @@ import SongsearchButton from './components/SongsearchButton'
 
 function App() {
   const [flag, setFlag] = useState(1);
+  const [displayResults, setDisplayResults] = useState(false);
+
   useEffect(() => {
-    
-  }, [flag])
+    if (flag === 1) {
+      setDisplayResults(true);
+    }
+  }, [flag]);
+
   function getFlagValue(data) {
     if (data) {
-        console.log("yes u did it yash,data ");
+      console.log("yes u did it yash,data ");
+      setFlag(data);
+
     }
   
   }
@@ -23,7 +30,7 @@ function App() {
         <div>
           {/*           <Navbar /> */}
           
-          <SongsearchButton/>
+          <SongsearchButton displayResults={displayResults} />
         </div>
         <div>
           
