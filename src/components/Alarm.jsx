@@ -62,7 +62,7 @@ const Alarm = () => {
     <div className="flex items-center justify-center h-screen bg-slate-800">
       <div className="p-8 rounded-lg text-white text-center">
         <label htmlFor="time" className="text-sm block mb-2 text-sm text-left text-blue-500">
-          Enter Time (HH:mm)
+          Enter Time (HH:MM)
         </label>
         <input
           type="text"

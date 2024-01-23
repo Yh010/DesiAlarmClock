@@ -1,5 +1,7 @@
+
 import './App.css'
 import Alarm from './components/Alarm'
+import Navbar from './components/Navbar'
 import SongsearchButton from './components/SongsearchButton'
 
 function App() {
@@ -7,7 +9,11 @@ function App() {
   return (
     <>
       <div className='flex justify-between'>
-        <SongsearchButton />
+        <div>
+{/*           <Navbar /> */}
+          <SongsearchButton />
+        </div>
+        
         <Alarm/>
         
       </div>
