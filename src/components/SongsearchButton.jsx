@@ -80,7 +80,9 @@ const SongsearchButton = () => {
         value={searchTerm}
         onChange={handleInputChange}
       />
-      <button onClick={handleSearch}>Search on YouTube</button>
+          <button onClick={handleSearch}>Search on YouTube</button>
+          <br>
+          </br>
       <button onClick={startPlayingVideoAfterSearch}>Search and Play First Video</button>
 
       {/* Display the search results */}
