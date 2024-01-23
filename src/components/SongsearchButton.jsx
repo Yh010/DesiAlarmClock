@@ -34,9 +34,32 @@ const SongsearchButton = () => {
       console.error('Error searching on YouTube:', error);
     }
   };
+
   const handleVideoClick = (videoId) => {
-    // You can handle playing the video here, for now, let's log the video ID
-    console.log('Playing video with ID:', videoId);
+    // Play the video directly by embedding it on the page
+    const iframe = document.createElement('iframe');
+    iframe.width = '560'; // Adjust width as needed
+    iframe.height = '315'; // Adjust height as needed
+    iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+    iframe.frameBorder = '0';
+    iframe.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
+    iframe.allowFullscreen = true;
+
+    // Replace the content of the container with the iframe
+    const container = document.getElementById('video-container');
+    container.innerHTML = '';
+    container.appendChild(iframe);
+  };
+
+  const handlePlayFirstVideo = () => {
+    // Check if there are videos in the search results
+    if (videos.length > 0) {
+      // Play the first video
+      const firstVideoId = videos[0].id.videoId;
+      handleVideoClick(firstVideoId);
+    } else {
+      console.log('No videos to play');
+    }
   };
 
   return (
@@ -48,12 +71,13 @@ const SongsearchButton = () => {
         onChange={handleInputChange}
       />
       <button onClick={handleSearch}>Search on YouTube</button>
+      <button onClick={handlePlayFirstVideo}>Play First Video</button>
 
       {/* Display the search results */}
-      <div>
+      <div id="video-container">
         {videos.map((video) => (
           <div key={video.id.videoId} onClick={() => handleVideoClick(video.id.videoId)}>
-             <img src={video.snippet.thumbnails.default.url} alt={video.snippet.title} />
+            <img src={video.snippet.thumbnails.default.url} alt={video.snippet.title} />
             <h3>{video.snippet.title}</h3>
             <p>{video.snippet.description}</p>
           </div>
