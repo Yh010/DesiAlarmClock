@@ -8,14 +8,15 @@ const SongsearchButton = () => {
     setSearchTerm(event.target.value);
   };
 
-  const handleSearch = async () => {
-    try {
+  const handleSearch = () => {
+    return new Promise((resolve, reject) => {
       // Replace 'YOUR_API_KEY' with your actual YouTube Data API key
       const apiKey = 'AIzaSyAYr18wLgTl4PSSFtCCZ6cbHmdJZMpM9oQ';
-      
+
       // Ensure the search term is not empty
       if (!searchTerm.trim()) {
         console.log('Please enter a search term');
+        reject('Empty search term');
         return;
       }
 
@@ -25,14 +26,18 @@ const SongsearchButton = () => {
       )}&key=${apiKey}`;
 
       // Fetch data from the YouTube Data API
-      const response = await fetch(apiUrl);
-      const data = await response.json();
-
-      // Update the videos state with the search results
-      setVideos(data.items || []);
-    } catch (error) {
-      console.error('Error searching on YouTube:', error);
-    }
+      fetch(apiUrl)
+        .then((response) => response.json())
+        .then((data) => {
+          // Update the videos state with the search results
+          setVideos(data.items || []);
+          resolve();
+        })
+        .catch((error) => {
+          console.error('Error searching on YouTube:', error);
+          reject(error);
+        });
+    });
   };
 
   const handleVideoClick = (videoId) => {
@@ -51,15 +56,20 @@ const SongsearchButton = () => {
     container.appendChild(iframe);
   };
 
-  const handlePlayFirstVideo = () => {
-    // Check if there are videos in the search results
-    if (videos.length > 0) {
-      // Play the first video
-      const firstVideoId = videos[0].id.videoId;
-      handleVideoClick(firstVideoId);
-    } else {
-      console.log('No videos to play');
-    }
+  const startPlayingVideoAfterSearch = () => {
+    handleSearch()
+      .then(() => {
+        // Play the first video directly
+        if (videos.length > 0) {
+          const firstVideoId = videos[0].id.videoId;
+          handleVideoClick(firstVideoId);
+        } else {
+          console.log('No videos to play');
+        }
+      })
+      .catch((error) => {
+        console.error('Error searching and playing video:', error);
+      });
   };
 
   return (
@@ -71,18 +81,10 @@ const SongsearchButton = () => {
         onChange={handleInputChange}
       />
       <button onClick={handleSearch}>Search on YouTube</button>
-      <button onClick={handlePlayFirstVideo}>Play First Video</button>
+      <button onClick={startPlayingVideoAfterSearch}>Search and Play First Video</button>
 
       {/* Display the search results */}
-      <div id="video-container">
-        {videos.map((video) => (
-          <div key={video.id.videoId} onClick={() => handleVideoClick(video.id.videoId)}>
-            <img src={video.snippet.thumbnails.default.url} alt={video.snippet.title} />
-            <h3>{video.snippet.title}</h3>
-            <p>{video.snippet.description}</p>
-          </div>
-        ))}
-      </div>
+      <div id="video-container"></div>
     </div>
   );
 };
